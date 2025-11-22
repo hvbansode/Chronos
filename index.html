@@ -59,7 +59,6 @@
       font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       font-size: 24px; display: inline-block; vertical-align: middle;
     }
-    .icon-fill { font-variation-settings: 'FILL' 1; }
 
     /* --- Layout --- */
     .app {
@@ -77,10 +76,7 @@
 
     .brand { display: flex; align-items: center; gap: 12px; }
     .brand h1 { font-size: 22px; font-weight: 400; margin: 0; color: var(--md-sys-color-on-background); }
-
-    /* Logo - Simplified Geometry */
     .logo { width: 32px; height: 32px; }
-    
     .top-actions { display: flex; gap: 8px; }
 
     /* Material Buttons */
@@ -93,7 +89,6 @@
       font-family: 'Roboto', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.1px;
     }
     .btn-tonal:hover { background: #33353A; }
-    .btn-tonal span { font-size: 20px; }
 
     .btn-icon {
       width: 48px; height: 48px; border-radius: 50%;
@@ -101,17 +96,16 @@
       color: var(--md-sys-color-on-background); cursor: pointer; transition: 0.2s;
     }
     .btn-icon:hover { background: rgba(255,255,255,0.08); }
-    .btn-icon.active { background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
 
     /* --- 2. Stage (Main View) --- */
     .stage { position: relative; display: flex; align-items: center; justify-content: center; height: 100%; overflow: hidden; }
 
-    /* Chart Container */
+    /* Chart Container with Container Queries */
     .chart-wrapper {
-      width: 65vh; height: 65vh; max-width: 650px; max-height: 650px;
+      container-type: size; /* Establishes a query container */
+      width: 65vh; height: 65vh; 
+      max-width: 650px; max-height: 650px;
       position: relative; 
-      /* Material Elevation 1 */
-      /* filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)) drop-shadow(0 1px 3px rgba(0,0,0,0.15)); */
     }
     svg { overflow: visible; width: 100%; height: 100%; }
 
@@ -120,11 +114,9 @@
     path.segment {
       cursor: pointer; transform-origin: 210px 210px;
       transition: transform 0.4s var(--ease-standard), filter 0.2s;
-      stroke: var(--md-sys-color-background); stroke-width: 2px; /* Gap between segments */
+      stroke: var(--md-sys-color-background); stroke-width: 2px;
     }
-    path.segment:hover, path.segment.active {
-      filter: brightness(1.1); transform: scale(1.04);
-    }
+    path.segment:hover, path.segment.active { filter: brightness(1.1); transform: scale(1.04); }
 
     /* Clock Face */
     .ticks line { stroke: var(--md-sys-color-outline-variant); stroke-width: 1; }
@@ -137,72 +129,91 @@
       transition: transform 1s linear;
     }
 
-    /* Center Info (Floating) */
+    /* Responsive Hub using Container Query Units */
     .hub {
-      position: absolute; inset: 50% auto auto 50%; transform: translate(-50%, -50%);
-      width: 180px; height: 180px; border-radius: 50%;
+      position: absolute; 
+      inset: 50% auto auto 50%; 
+      transform: translate(-50%, -50%);
+      
+      /* 44% of the chart wrapper size keeps it strictly proportional */
+      width: 44cqmin; 
+      height: 44cqmin; 
+      
+      border-radius: 50%;
       background: var(--md-sys-color-surface-container-low);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       pointer-events: none; text-align: center;
-      box-shadow: 0 4px 8px 3px rgba(0,0,0,0.15); /* Elevation 2 */
+      box-shadow: 0 4px 8px 3px rgba(0,0,0,0.15);
+      z-index: 5;
     }
-    .hub-time { font-size: 42px; font-weight: 400; color: var(--md-sys-color-on-background); font-family: 'Roboto'; letter-spacing: -1px; }
-    .hub-act { font-size: 14px; font-weight: 500; color: var(--md-sys-color-primary); margin-top: -4px; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .hub-rem { font-size: 12px; color: var(--md-sys-color-secondary); margin-top: 4px; }
+    
+    /* Fluid Typography based on container width (cqw) */
+    .hub-time { 
+      font-size: 11cqw; 
+      font-weight: 400; 
+      color: var(--md-sys-color-on-background); 
+      font-family: 'Roboto'; 
+      letter-spacing: -1px;
+      line-height: 1;
+      margin-bottom: 2cqw;
+    }
+    .hub-act { 
+      font-size: 3.5cqw; 
+      font-weight: 500; 
+      color: var(--md-sys-color-primary); 
+      max-width: 80%; 
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      line-height: 1.2; 
+    }
+    .hub-rem { 
+      font-size: 3cqw; 
+      color: var(--md-sys-color-secondary); 
+      margin-top: 1cqw; 
+    }
 
-    /* --- 3. Floating Controls & Legend --- */
+    /* --- 3. Floating Controls --- */
     .layout-dock {
       position: absolute; bottom: 32px; right: 32px; top: 90px;
       display: flex; flex-direction: column; align-items: flex-end; gap: 16px;
       pointer-events: none; justify-content: flex-end;
     }
-
     .fab-group { pointer-events: auto; display: flex; flex-direction: column; gap: 12px; }
 
-    /* Floating Action Button (FAB) style for Edit */
     .fab-large {
       width: 56px; height: 56px; border-radius: 16px;
-      background: var(--md-sys-color-primary-container);
-      color: var(--md-sys-color-on-primary-container);
+      background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container);
       display: grid; place-items: center; cursor: pointer;
-      box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15);
-      transition: 0.2s var(--ease-standard);
+      box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15); transition: 0.2s var(--ease-standard);
     }
     .fab-large:hover { filter: brightness(1.08); box-shadow: 0 6px 10px 4px rgba(0, 0, 0, 0.15); }
     .fab-small {
       width: 48px; height: 48px; border-radius: 12px;
-      background: var(--md-sys-color-surface-container-high);
-      color: var(--md-sys-color-on-surface);
+      background: var(--md-sys-color-surface-container-high); color: var(--md-sys-color-on-surface);
       display: grid; place-items: center; cursor: pointer;
-      box-shadow: 0 2px 6px 2px rgba(0, 0, 0, 0.15);
-      transition: 0.2s;
+      box-shadow: 0 2px 6px 2px rgba(0, 0, 0, 0.15); transition: 0.2s;
     }
     .fab-small.active { background: var(--md-sys-color-secondary); color: #000; }
 
-    /* Legend Card */
     .legend-panel {
       pointer-events: auto; width: 300px; max-height: 50vh;
-      background: var(--md-sys-color-surface-container);
-      border-radius: var(--shape-corner-xl);
+      background: var(--md-sys-color-surface-container); border-radius: var(--shape-corner-xl);
       display: flex; flex-direction: column; overflow: hidden;
       transition: 0.3s var(--ease-standard); transform-origin: bottom right;
       box-shadow: 0 4px 8px 3px rgba(0,0,0,0.15);
     }
     .legend-panel.hidden { opacity: 0; transform: scale(0.9) translateY(20px); pointer-events: none; }
-
     .l-head { padding: 24px 24px 12px; font-size: 18px; color: var(--md-sys-color-on-background); font-weight: 500; }
     .l-list { flex: 1; overflow-y: auto; padding: 0 12px 24px; }
     .l-item { display: flex; align-items: center; gap: 16px; padding: 12px; border-radius: var(--shape-pill); cursor: pointer; transition: 0.2s; }
     .l-item:hover { background: rgba(255,255,255,0.05); }
     .l-item.active { background: rgba(168, 199, 250, 0.12); }
-    
     .l-dot { width: 12px; height: 12px; border-radius: 50%; }
     .l-info { flex: 1; }
     .l-name { font-size: 14px; font-weight: 500; color: var(--md-sys-color-on-background); }
     .l-time { font-size: 12px; color: var(--md-sys-color-secondary); font-family: 'Roboto Mono'; margin-top: 2px; }
     .l-dur { font-weight: 500; font-size: 12px; color: var(--md-sys-color-on-background); }
 
-    /* HUD (Bottom Left Toast) */
+    /* HUD */
     .hud {
       position: absolute; bottom: 32px; left: 32px;
       background: var(--md-sys-color-surface-container-high);
@@ -216,33 +227,23 @@
     .hud-n { font-size: 16px; font-weight: 500; color: var(--md-sys-color-on-background); }
     .hud-t { font-family: 'Roboto Mono'; color: var(--md-sys-color-secondary); font-size: 12px; }
 
-    /* --- Menus --- */
+    /* Dropdowns (Base Desktop) */
     .dropdown-wrapper { position: relative; }
     .dropdown-menu {
       position: absolute; top: 100%; right: 0; margin-top: 8px; width: 260px;
-      background: var(--md-sys-color-surface-container);
-      border-radius: 4px; border-radius: var(--shape-corner-medium);
-      padding: 8px 0; z-index: 100;
-      box-shadow: 0 2px 6px 2px rgba(0,0,0,0.15);
-      display: none; flex-direction: column;
-      transform-origin: top right;
+      background: var(--md-sys-color-surface-container); border-radius: var(--shape-corner-medium);
+      padding: 8px 0; z-index: 100; box-shadow: 0 2px 6px 2px rgba(0,0,0,0.15);
+      display: none; flex-direction: column; transform-origin: top right;
     }
     .dropdown-menu.show { display: flex; animation: fadeScale 0.15s var(--ease-standard); }
-    
     .dd-header { font-size: 11px; color: var(--md-sys-color-outline); padding: 8px 16px; font-weight: 500; }
-    .dd-item { 
-      display: flex; align-items: center; gap: 12px; padding: 12px 16px; 
-      cursor: pointer; color: var(--md-sys-color-on-background); font-size: 14px; 
-    }
+    .dd-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; cursor: pointer; color: var(--md-sys-color-on-background); font-size: 14px; }
     .dd-item:hover { background: rgba(255,255,255,0.05); }
     .dd-divider { height: 1px; background: var(--md-sys-color-outline-variant); margin: 8px 0; }
-    .dd-plan-row {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 12px 16px; cursor: pointer; color: var(--md-sys-color-on-background); font-size: 14px;
-    }
+    .dd-plan-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; color: var(--md-sys-color-on-background); font-size: 14px; }
     .dd-plan-row:hover { background: rgba(255,255,255,0.05); }
 
-    /* --- Full Screen Dialog (Editor) --- */
+    /* --- EDITOR DIALOG --- */
     .backdrop {
       position: fixed; inset: 0; background: rgba(0,0,0,0.6);
       z-index: 500; display: grid; place-items: center; opacity: 0; pointer-events: none; transition: 0.2s;
@@ -260,39 +261,24 @@
     }
     .backdrop.open .modal { transform: scale(1); }
 
-    /* Modal Header */
-    .m-head { 
-      padding: 24px 24px 16px; 
-      background: var(--md-sys-color-surface);
-    }
+    .m-head { padding: 24px 24px 16px; background: var(--md-sys-color-surface); }
     .m-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
     .m-title { font-size: 24px; font-weight: 400; color: var(--md-sys-color-on-background); }
-
-    /* Capacity Indicator (Linear Progress) */
+    
     .capacity-wrapper { 
       width: 100%; height: 4px; background: var(--md-sys-color-surface-container-high);
       border-radius: 2px; overflow: hidden; display: flex; position: relative;
     }
-    .gauge-filled {
-      height: 100%; background: var(--md-sys-color-primary); 
-      transition: width 0.3s var(--ease-standard);
-    }
+    .gauge-filled { height: 100%; background: var(--md-sys-color-primary); transition: width 0.3s var(--ease-standard); }
     .gauge-filled.over { background: var(--md-sys-color-error); }
-    .gauge-text { 
-      display: flex; justify-content: space-between; margin-top: 8px; 
-      font-size: 12px; color: var(--md-sys-color-secondary); font-family: 'Roboto Mono'; 
-    }
+    .gauge-text { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--md-sys-color-secondary); font-family: 'Roboto Mono'; }
 
-    /* Editor List */
-    .m-body { 
-      flex: 1; overflow-y: auto; padding: 0 24px 24px; 
-      display: flex; flex-direction: column; gap: 8px;
-    }
+    .m-body { flex: 1; overflow-y: auto; padding: 0 24px 24px; display: flex; flex-direction: column; gap: 8px; }
 
-    /* Editor Row (Card) */
+    /* --- Responsive Editor Card --- */
     .editor-card {
       display: grid; 
-      /* Color | Input | Time | Duration | Delete */
+      /* Default Desktop Layout */
       grid-template-columns: 40px 1.5fr 140px 60px 40px; 
       gap: 16px; align-items: center; padding: 8px 16px; 
       border-radius: 12px; background: var(--md-sys-color-surface-container-low);
@@ -303,15 +289,14 @@
     
     .color-swatch {
       width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--md-sys-color-surface-container-high);
-      position: relative; cursor: pointer; overflow: hidden;
+      position: relative; cursor: pointer; overflow: hidden; flex-shrink: 0;
     }
     .color-swatch input { position: absolute; opacity: 0; width: 200%; height: 200%; top:-50%; left:-50%; cursor: pointer; }
 
-    /* Input Styling */
     .inp-title { 
       background: transparent; border: none; border-bottom: 1px solid var(--md-sys-color-outline-variant);
       color: var(--md-sys-color-on-background); font-size: 16px; font-weight: 400; padding: 8px 0; 
-      font-family: 'Roboto'; outline: none; transition: 0.2s;
+      font-family: 'Roboto'; outline: none; transition: 0.2s; width: 100%;
     }
     .inp-title:focus { border-bottom-color: var(--md-sys-color-primary); }
 
@@ -323,7 +308,7 @@
     }
     .time-btn:hover { background: rgba(255,255,255,0.05); border-color: var(--md-sys-color-on-background); }
 
-    .dur-badge { font-family: 'Roboto Mono'; font-size: 12px; color: var(--md-sys-color-secondary); text-align: right; }
+    .dur-badge { font-family: 'Roboto Mono'; font-size: 12px; color: var(--md-sys-color-secondary); text-align: right; white-space: nowrap; }
 
     .del-icon {
       width: 40px; height: 40px; display: grid; place-items: center;
@@ -331,14 +316,12 @@
     }
     .del-icon:hover { background: rgba(255,180,171,0.1); color: var(--md-sys-color-error); }
 
-    /* Modal Footer (Bottom Bar) */
     .m-foot { 
-      padding: 16px 24px; border-top: 1px solid var(--md-sys-color-outline-variant);
+      padding: 16px 24px; border-top: 1px solid var(--md-sys-color-surface-container-high);
       display: flex; justify-content: space-between; align-items: center;
-      background: var(--md-sys-color-surface-container);
+      background: var(--md-sys-color-surface-container); z-index: 2;
     }
     
-    /* Filled Button (Primary) */
     .btn-filled {
       height: 40px; padding: 0 24px; border-radius: 20px;
       background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary);
@@ -347,7 +330,6 @@
     }
     .btn-filled:hover { box-shadow: 0 2px 4px 1px rgba(0,0,0,0.2); }
     .btn-filled:disabled { background: rgba(226, 226, 230, 0.12); color: rgba(226, 226, 230, 0.38); box-shadow: none; }
-
     .btn-text {
       height: 40px; padding: 0 12px; border-radius: 20px;
       background: transparent; color: var(--md-sys-color-primary);
@@ -355,16 +337,14 @@
     }
     .btn-text:hover { background: rgba(168, 199, 250, 0.08); }
 
-    /* FAB in Modal */
     .fab-add {
       width: 56px; height: 56px; border-radius: 16px;
       background: var(--md-sys-color-tertiary); color: #291A00;
       display: grid; place-items: center; cursor: pointer;
       box-shadow: 0 4px 8px 3px rgba(0,0,0,0.15); margin-top: -28px;
     }
-    .fab-add:hover { filter: brightness(1.05); }
 
-    /* --- Clock Picker Dialog --- */
+    /* Clock Picker */
     .clk-bg { position: fixed; inset: 0; z-index: 600; background: rgba(0,0,0,0.6); display: none; place-items: center; }
     .clk-bg.show { display: grid; }
     .clk-card { 
@@ -372,7 +352,6 @@
       border-radius: 28px; padding: 24px; 
       box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
     }
-    
     .clk-head { display: flex; flex-direction: column; align-items: center; margin-bottom: 24px; }
     .clk-disp { display: flex; align-items: flex-end; gap: 4px; }
     .clk-in {
@@ -381,14 +360,12 @@
       color: var(--md-sys-color-on-background); outline: none;
     }
     .clk-in:focus { background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
-
     .clk-toggle {
       display: flex; background: var(--md-sys-color-surface); border: 1px solid var(--md-sys-color-outline-variant);
       border-radius: 8px; overflow: hidden; margin-top: 12px;
     }
     .clk-t-opt { padding: 6px 16px; font-size: 12px; text-transform: uppercase; cursor: pointer; color: var(--md-sys-color-on-surface); }
     .clk-t-opt.active { background: var(--md-sys-color-secondary); color: #000; font-weight: 700; }
-
     .clk-face { 
       width: 256px; height: 256px; border-radius: 50%; background: var(--md-sys-color-surface-container-low); 
       margin: 0 auto; position: relative; 
@@ -402,13 +379,91 @@
     .clk-num.sel { background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); }
     .clk-center-dot { position: absolute; top: 50%; left: 50%; width: 4px; height: 4px; background: var(--md-sys-color-primary); border-radius: 50%; transform: translate(-50%,-50%); }
 
-    /* Save/Delete Mini Modals */
+    /* Mini Modals */
     .modal-mini { max-width: 320px; height: auto; padding: 24px; border-radius: 28px; }
     .mini-title { font-size: 22px; margin-bottom: 16px; color: var(--md-sys-color-on-background); }
     .mini-text { font-size: 14px; color: var(--md-sys-color-secondary); margin-bottom: 24px; }
     .mini-acts { display: flex; justify-content: flex-end; gap: 8px; }
 
     @keyframes fadeScale { from{opacity:0; transform:scale(0.95);} to{opacity:1; transform:scale(1);} }
+    /* Slide Up Animation for Mobile Sheets */
+    @keyframes slideUp { 
+      from { transform: translateY(100%); opacity: 0; } 
+      to { transform: translateY(0); opacity: 1; } 
+    }
+
+    /* --- RESPONSIVE BREAKPOINTS (Mobile) --- */
+    @media (max-width: 600px) {
+      
+      /* 1. Layout & Visual Center Adjustment */
+      .stage {
+        /* Add bottom padding to push the visual center upwards, preventing overlap */
+        padding-bottom: 180px; 
+        box-sizing: border-box;
+      }
+
+      /* 2. Full Screen Editor Dialog */
+      .modal {
+        max-width: 100%; height: 100%; 
+        border-radius: 0;
+      }
+      .m-head { padding: 16px; }
+      .m-body { padding: 0 16px 80px; }
+
+      /* 3. Responsive Charts */
+      .chart-wrapper { width: 85vw; height: 85vw; } 
+
+      /* 4. Controls & Legend positioning */
+      .layout-dock { 
+        bottom: 24px; right: 16px; left: 16px;
+        align-items: flex-end;
+      }
+      
+      /* Fix Legend Overlap */
+      .legend-panel { 
+        width: 100%; 
+        max-height: 45vh; 
+      }
+
+      /* 5. Responsive Menus -> Bottom Sheets */
+      .dropdown-menu {
+        position: fixed;
+        top: auto; bottom: 0; left: 0; right: 0;
+        width: 100%; margin: 0;
+        border-radius: 28px 28px 0 0;
+        padding: 16px 0 24px;
+        transform-origin: bottom center;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+        border: 1px solid var(--md-sys-color-surface-container-high);
+      }
+      
+      .dropdown-menu.show {
+        animation: slideUp 0.3s cubic-bezier(0.2, 0.0, 0, 1.0) forwards;
+      }
+
+      .dd-item, .dd-plan-row { padding: 16px 24px; font-size: 16px; }
+      .dd-header { padding: 8px 24px; }
+
+      /* 6. Editor Card (Grid Layout for Mobile) */
+      .editor-card {
+        grid-template-columns: 40px 1fr 40px;
+        grid-template-rows: auto auto;
+        gap: 12px 12px;
+        padding: 16px;
+      }
+      
+      .color-swatch { grid-column: 1; grid-row: 1; }
+      .inp-title { grid-column: 2; grid-row: 1; width: 100%; font-size: 18px; }
+      .del-icon { grid-column: 3; grid-row: 1; }
+
+      .time-btn {
+        grid-column: 1 / span 2; grid-row: 2;
+        justify-content: flex-start; padding: 0 12px;
+        background: var(--md-sys-color-surface-container);
+        border-color: transparent;
+      }
+      .dur-badge { grid-column: 3; grid-row: 2; align-self: center; }
+    }
   </style>
 </head>
 <body>
@@ -427,8 +482,7 @@
       <div class="dropdown-wrapper">
         <button class="btn-tonal" onclick="App.menu('presets', event)">
           <span class="material-symbols-rounded">dashboard</span>
-          Presets
-        </button>
+          <span style="display:none">Presets</span> </button>
         <div class="dropdown-menu" id="menuPresets"></div>
       </div>
       <div class="dropdown-wrapper">
@@ -572,16 +626,15 @@
 
 <script>
 window.App = (() => {
-  // Material Design 3 Colors (Pastels/Muted)
   const DEF = [
-    { label: 'Sleep', start: '23:00', end: '07:00', color: '#8A90A3' }, // Neutral Variant
-    { label: 'Morning Routine', start: '07:00', end: '08:30', color: '#F2B8B5' }, // Red
-    { label: 'Deep Work', start: '08:30', end: '11:30', color: '#A8C7FA' }, // Blue
-    { label: 'Break', start: '11:30', end: '13:00', color: '#C4EDD2' }, // Green
-    { label: 'Focus Block', start: '13:00', end: '15:00', color: '#E8DEF8' }, // Purple
-    { label: 'Admin', start: '15:00', end: '17:00', color: '#E6E1E5' }, // Surface Variant
-    { label: 'Relax', start: '17:00', end: '21:00', color: '#FDD663' }, // Yellow
-    { label: 'Wind Down', start: '21:00', end: '23:00', color: '#D7C0FF' } // Violet
+    { label: 'Sleep', start: '23:00', end: '07:00', color: '#8A90A3' },
+    { label: 'Morning Routine', start: '07:00', end: '08:30', color: '#F2B8B5' },
+    { label: 'Deep Work', start: '08:30', end: '11:30', color: '#A8C7FA' },
+    { label: 'Break', start: '11:30', end: '13:00', color: '#C4EDD2' },
+    { label: 'Focus Block', start: '13:00', end: '15:00', color: '#E8DEF8' },
+    { label: 'Admin', start: '15:00', end: '17:00', color: '#E6E1E5' },
+    { label: 'Relax', start: '17:00', end: '21:00', color: '#FDD663' },
+    { label: 'Wind Down', start: '21:00', end: '23:00', color: '#D7C0FF' }
   ];
   
   let items=[], hist=[], hIdx=-1, lOpen=true, sel=-1;
@@ -627,7 +680,6 @@ window.App = (() => {
       const ang = (i / 24) * 360 - 90;
       const rad = ang * Math.PI / 180;
       const len = isMajor ? 12 : 6;
-      // Ticks inside the ring
       const x1 = cx + (r - 10) * Math.cos(rad);
       const y1 = cy + (r - 10) * Math.sin(rad);
       const x2 = cx + (r - 10 - len) * Math.cos(rad);
@@ -657,7 +709,6 @@ window.App = (() => {
     const now = new Date();
     const mins = now.getHours() * 60 + now.getMinutes();
     const deg = (mins / 1440) * 360;
-    // Marker logic
     ui.marker.style.transform = `rotate(${deg}deg)`;
 
     ui.hubTime.textContent = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
@@ -670,7 +721,6 @@ window.App = (() => {
 
     if (current) {
       ui.hubAct.textContent = current.label;
-      // ui.hubAct.style.color = current.color; // Optional: Use theme color instead
       let endM = toM(current.end);
       if (endM < mins) endM += 1440;
       const diff = endM - mins;
@@ -731,7 +781,6 @@ window.App = (() => {
       const x1=cx+r*Math.cos(rad(aS)), y1=cy+r*Math.sin(rad(aS)), x2=cx+r*Math.cos(rad(aE)), y2=cy+r*Math.sin(rad(aE));
       const lg=dur>720?1:0; const d=`M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${lg} 1 ${x2} ${y2} Z`;
 
-      // Main Path
       const p=document.createElementNS('http://www.w3.org/2000/svg','path'); 
       p.setAttribute('d',d); p.setAttribute('class','segment'); 
       p.setAttribute('fill', it.color); 
@@ -776,11 +825,7 @@ window.App = (() => {
       el.innerHTML=`
         <div class="color-swatch" style="background:${it.color}"><input type="color" value="${it.color}" onchange="App.upd(${i},'color',this.value)"></div>
         <input class="inp-title" value="${it.label}" placeholder="Activity Name" onchange="App.upd(${i},'label',this.value)">
-        
-        <button class="time-btn" onclick="App.openTS(${i})">
-          ${it.start} - ${it.end}
-        </button>
-
+        <button class="time-btn" onclick="App.openTS(${i})">${it.start} - ${it.end}</button>
         <div class="dur-badge">${formatDur(d)}</div>
         <div class="del-icon" onclick="App.del(${i})"><span class="material-symbols-rounded">delete</span></div>
       `;
@@ -792,9 +837,7 @@ window.App = (() => {
     ui.cTxt.innerText = `${formatDur(t)} Scheduled`;
     ui.cRem.innerText = `${formatDur(Math.max(0, 1440 - t))} Free`;
     ui.cFill.className = `gauge-filled ${t > 24*60 ? 'over' : ''}`;
-    
-    const saveBtn = document.getElementById('saveBtn');
-    saveBtn.disabled = t > 24*60;
+    document.getElementById('saveBtn').disabled = t > 24*60;
   };
 
   const upd = (i,k,v) => { items[i][k]=v; rec(); editRows(); };
@@ -811,29 +854,21 @@ window.App = (() => {
     ui.tabE.className = `clk-t-opt ${m==='end'?'active':''}`;
     const val = m === 'start' ? ts.start : ts.end;
     const [h, mn] = val.split(':');
-    ui.clkH.value = h;
-    ui.clkM.value = mn;
-    ui.clkH.focus();
-    ts.unit = 'h'; renderDial();
+    ui.clkH.value = h; ui.clkM.value = mn;
+    ui.clkH.focus(); ts.unit = 'h'; renderDial();
   };
 
   const onH = (el) => {
-    let v = el.value.replace(/\D/g,'');
-    if(parseInt(v) > 23) v = '23';
-    el.value = v;
-    if(v.length === 2) ui.clkM.focus();
-    syncState();
+    let v = el.value.replace(/\D/g,''); if(parseInt(v) > 23) v = '23'; el.value = v;
+    if(v.length === 2) ui.clkM.focus(); syncState();
   };
   const onM = (el) => {
-    let v = el.value.replace(/\D/g,'');
-    if(parseInt(v) > 59) v = '59';
-    el.value = v;
+    let v = el.value.replace(/\D/g,''); if(parseInt(v) > 59) v = '59'; el.value = v;
     syncState();
   };
 
   const syncState = () => {
-    const h = ui.clkH.value.padStart(2,'0');
-    const m = ui.clkM.value.padStart(2,'0');
+    const h = ui.clkH.value.padStart(2,'0'); const m = ui.clkM.value.padStart(2,'0');
     if (ts.mode === 'start') ts.start = `${h}:${m}`; else ts.end = `${h}:${m}`;
     if(h.length > 0 && m.length > 0) renderDial();
   };
@@ -863,24 +898,14 @@ window.App = (() => {
       d.style.top = (y - 16) + 'px';
       
       d.onclick = () => {
-        if (isH) {
-          ui.clkH.value = String(n).padStart(2,'0');
-          syncState(); ts.unit = 'm'; ui.clkM.focus(); renderDial();
-        } else {
-          ui.clkM.value = String(n).padStart(2,'0');
-          syncState();
-          if (ts.mode === 'start') selTab('end');
-          else { ts.unit = 'h'; renderDial(); }
-        }
+        if (isH) { ui.clkH.value = String(n).padStart(2,'0'); syncState(); ts.unit = 'm'; ui.clkM.focus(); renderDial(); } 
+        else { ui.clkM.value = String(n).padStart(2,'0'); syncState(); if (ts.mode === 'start') selTab('end'); else { ts.unit = 'h'; renderDial(); } }
       };
       ui.dial.append(d);
     }
   };
 
-  const saveTS = () => {
-    items[ts.idx].start = ts.start; items[ts.idx].end = ts.end;
-    rec(); editRows(); ui.clk.classList.remove('show');
-  };
+  const saveTS = () => { items[ts.idx].start = ts.start; items[ts.idx].end = ts.end; rec(); editRows(); ui.clk.classList.remove('show'); };
 
   const closeMenus = () => document.querySelectorAll('.dropdown-menu').forEach(d=>d.classList.remove('show'));
   const menu = (id, e) => { e.stopPropagation(); const m=$('menu'+(id==='presets'?'Presets':'Data')); const w=m.classList.contains('show'); closeMenus(); if(!w){ if(id==='presets')renderPresets(); m.classList.add('show'); }};
@@ -896,8 +921,7 @@ window.App = (() => {
     add:()=>{
       const l=items[items.length-1]||{end:'00:00'}; 
       const nextM = (toM(l.end) + 60) % 1440;
-      const h = Math.floor(nextM/60);
-      const m = nextM % 60;
+      const h = Math.floor(nextM/60); const m = nextM % 60;
       const nextT = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
       items.push({label:'New Activity',start:l.end,end:nextT, color:'#C4C7D0'}); 
       rec(); editRows(); ui.rows.scrollTop=ui.rows.scrollHeight
