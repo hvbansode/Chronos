@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#0d1117" />
+    <meta
+      name="description"
+      content="Chronos — A beautiful Material Design 3 powered 24-hour circular schedule planner. Plan your entire day visually, drag tasks on a clock ring, get live countdowns, and stay on track."
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Chronos" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Chronos — 24-Hour Schedule Planner" />
+    <meta
+      property="og:description"
+      content="A beautiful Material Design 3 powered circular schedule planner. Plan your day visually, drag tasks on a clock ring, and stay on track."
+    />
+    <meta property="og:image" content="./icon-512x512.png" />
+    <meta property="og:url" content="" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Chronos — 24-Hour Schedule Planner" />
+    <meta
+      name="twitter:description"
+      content="A beautiful Material Design 3 powered circular schedule planner."
+    />
+    <meta name="twitter:image" content="./icon-512x512.png" />
+
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icon-192x192.png" />
+    <title>Chronos — 24-Hour Schedule Planner</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=block"
+    />
+
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="./src/styles/variables.css" />
+    <link rel="stylesheet" href="./src/styles/base.css" />
+    <link rel="stylesheet" href="./src/styles/layout.css" />
+    <link rel="stylesheet" href="./src/styles/components.css" />
+
+    <script>
+      // Sync theme load to prevent FOUC
+      const savedTheme = localStorage.getItem("chronos_theme") || "dark";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      document
+        .querySelector('meta[name="theme-color"]')
+        .setAttribute(
+          "content",
+          savedTheme === "light" ? "#f9f9ff" : "#0d1117",
+        );
+    </script>
+  </head>
+
+  <body>
+    <div class="app-bar">
+      <div class="app-bar-group">
+        <button class="icon-btn" title="Menu" aria-label="Open Schedule Menu" aria-expanded="false">
+          <span class="material-symbols-rounded">menu</span>
+        </button>
+        <div class="app-title">Chronos</div>
+      </div>
+      <div class="app-bar-group">
+        <button
+          class="icon-btn"
+          id="themeToggleBtn"
+          title="Toggle Theme"
+          aria-label="Toggle Theme"
+        >
+          <span class="material-symbols-rounded">light_mode</span>
+        </button>
+        <button class="icon-btn" title="Routines" aria-label="Manage Routines">
+          <span class="material-symbols-rounded">dashboard</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="chart-container" id="stageBase">
+        <!-- Expanded viewBox to prevent clipping of labels/knobs -->
+        <svg
+          id="svg"
+          viewBox="-40 -40 500 500"
+          role="img"
+          aria-label="24 Hour Schedule Chart"
+        >
+          <defs id="gradients"></defs>
+          <g id="bgLayer">
+            <circle cx="210" cy="210" r="162" class="track-bg" />
+            <circle cx="210" cy="210" r="190" class="track-rail" />
+            <circle cx="210" cy="210" r="134" class="track-rail" />
+            <g id="ticks" class="ticks"></g>
+          </g>
+
+          <g id="slicesLayer"></g>
+
+          <line id="guideLine" class="guide-line" x1="210" y1="210" x2="210" y2="40" />
+          <g id="nowMarker">
+            <line x1="210" y1="12" x2="210" y2="76" class="now-bar" />
+          </g>
+
+          <g id="knobsLayer"></g>
+        </svg>
+
+        <div
+          class="hub"
+          id="hub"
+          role="button"
+          tabindex="0"
+          aria-label="Clock Hub"
+          aria-live="polite"
+        >
+          <div class="md-ripple"></div>
+          <!-- Progress Ring -->
+          <svg class="hub-progress-svg" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="46" class="hub-track" />
+            <circle
+              cx="50"
+              cy="50"
+              r="46"
+              class="hub-fill"
+              id="hubProgressFill"
+              pathLength="100"
+            />
+          </svg>
+
+          <div class="hub-content">
+            <div class="hub-label-top" id="hubAmPm">--</div>
+            <div class="hub-time" id="hubTime">--:--</div>
+            <div class="hub-task-name" id="hubTask">Chronos</div>
+            <div class="hub-countdown" id="hubCountdown">--</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="fab" tabindex="0" aria-label="Add New Task (Press N)">
+        <span class="material-symbols-rounded fab-icon">add</span>
+        <span class="fab-hint">Press N</span>
+      </button>
+    </div>
+
+    <div class="scrim" id="scrim"></div>
+    <div class="drawer" id="drawer">
+      <div class="drawer-header">
+        <span class="drawer-title">Schedule</span>
+        <button class="icon-btn" title="Close" aria-label="Close Menu">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+
+      <!-- Progress Card -->
+      <div class="progress-card" id="progressCard">
+        <div class="progress-header">
+          <span class="progress-title">Daily Progress</span>
+          <div class="progress-actions">
+            <span class="progress-counter" id="progressText">0/0</span>
+            <button
+              class="reset-btn"
+              title="Reset progress (uncheck all)"
+              aria-label="Reset Progress"
+            >
+              <span class="material-symbols-rounded" style="font-size: 18px"
+                >refresh</span
+              >
+            </button>
+          </div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="list-container" id="list"></div>
+    </div>
+
+    <!-- Modal Backdrop (dialogs are appended here by JS) -->
+    <div class="backdrop" id="modalBackdrop"></div>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

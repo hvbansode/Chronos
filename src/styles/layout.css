@@ -1,0 +1,345 @@
+/* ==========================================================================
+   LAYOUT.CSS — Material Design 3 Layout Tokens
+   Fixes applied:
+   - E4: App-bar height 80px → 64px (M3 Small Top App Bar spec)
+   - C1: App-bar bg raw rgba → surface + elevation-tint-level2
+   - T1: App-bar title font → Title Large (22sp/400)
+   - E1: Z-index ladder fixed: app-bar(50) drawer(600) scrim(700)
+   - M1: Drawer easing → M3 emphasized-decelerate/accelerate tokens
+   - S2: Drawer radius redundant calc() removed
+   - C2: FAB bg → primary-container; icon → on-primary-container
+   - E3: FAB duplicate position:absolute removed
+   - A4: .app-bar-group flex utility added
+   ========================================================================== */
+
+/* ==========================================================================
+   APP BAR (M3 Small Top App Bar)
+   Spec: 64dp height, surface + elevation-tint-level2 bg, 1 icon + 3 trailing
+   ========================================================================== */
+
+.app-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: 64px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* I1: Glassmorphic — adapts to any theme via semi-transparent surface */
+  background: color-mix(
+    in srgb,
+    var(--md-sys-color-surface-container) 75%,
+    transparent
+  );
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--md-sys-color-outline-variant) 50%, transparent);
+  transition: box-shadow var(--md-sys-motion-duration-short4)
+    var(--md-sys-motion-easing-standard);
+}
+
+/* 'scrolled' state adds elevation shadow */
+.app-bar.scrolled {
+  box-shadow: var(--md-sys-elevation-2);
+}
+
+/* T1: App-bar title — M3 Title Large (22sp / 400 weight) */
+.app-title {
+  /* Title Large */
+  font-size: var(--md-sys-typescale-title-large-size);
+  font-weight: var(--md-sys-typescale-title-large-weight);
+  line-height: var(--md-sys-typescale-title-large-line-height);
+  letter-spacing: var(--md-sys-typescale-title-large-tracking);
+  font-family: "Roboto", sans-serif;
+  color: var(--md-sys-color-on-surface);
+  padding-left: 8px;
+}
+
+/* A4: Flex group utility for app-bar icon rows */
+.app-bar-group {
+  display: flex;
+  align-items: center;
+}
+
+/* ==========================================================================
+   ICON BUTTON (M3 Standard Icon Button)
+   Spec: 48×48dp touch target, 24dp icon, no fill by default
+   ========================================================================== */
+
+.icon-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--md-sys-shape-corner-full);
+  border: none;
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  position: relative;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--md-sys-motion-duration-short4)
+    var(--md-sys-motion-easing-standard);
+}
+
+.icon-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity var(--md-sys-motion-duration-short4)
+    var(--md-sys-motion-easing-standard);
+}
+
+.icon-btn:hover::before {
+  opacity: var(--md-sys-state-hover-opacity);
+}
+.icon-btn:active::before {
+  opacity: var(--md-sys-state-pressed-opacity);
+}
+.icon-btn:focus-visible {
+  outline: 3px solid var(--md-sys-color-secondary);
+  outline-offset: -3px;
+}
+.icon-btn > .material-symbols-rounded {
+  font-size: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   MAIN LAYOUT
+   ========================================================================== */
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 16px 120px;
+  min-height: calc(100dvh - 64px); /* E4: 64px app-bar */
+}
+
+/* ==========================================================================
+   NAVIGATION DRAWER (M3 Standard Modal Drawer)
+   Spec: 360dp max-width, surface-container bg, 16dp end corner, slide left→right
+   ========================================================================== */
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(360px, 85vw);
+  z-index: 700; /* Fixed: was 600, now 700 to be above scrim */
+  background: var(--md-sys-color-surface-container);
+  background-image: var(--md-sys-elevation-tint-level1);
+  /* S2: removed redundant calc() — bare token */
+  border-radius: 0 var(--md-sys-shape-corner-large)
+    var(--md-sys-shape-corner-large) 0;
+  box-shadow: var(--md-sys-elevation-1);
+  overscroll-behavior: contain;
+  overflow-y: auto;
+  touch-action: pan-y;
+
+  /* M1: M3 exit easing — emphasized-accelerate, 300ms */
+  transform: translateX(-100%);
+  transition: transform var(--md-sys-motion-duration-medium1)
+    var(--md-sys-motion-easing-emphasized-accelerate);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer.open {
+  /* M1: M3 enter easing — emphasized-decelerate, 400ms */
+  transform: translateX(0);
+  transition: transform var(--md-sys-motion-duration-medium2)
+    var(--md-sys-motion-easing-emphasized-decelerate);
+}
+
+/* Drawer header */
+.drawer-header {
+  padding: 16px 4px 8px 16px; /* M3: 16px top padding, 4px right to align icon-btn edge */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  /* M3: Drawer header = surface-container bg (already on drawer) + divider below */
+  border-bottom: 1px solid var(--md-sys-color-surface-container-high);
+  margin-bottom: 8px;
+}
+
+.drawer-title {
+  /* Title Large */
+  font-size: var(--md-sys-typescale-title-large-size);
+  font-weight: var(--md-sys-typescale-title-large-weight);
+  line-height: var(--md-sys-typescale-title-large-line-height);
+  letter-spacing: var(--md-sys-typescale-title-large-tracking);
+  color: var(--md-sys-color-on-surface);
+}
+
+.drawer-subtitle {
+  /* Label Medium */
+  font-size: var(--md-sys-typescale-label-medium-size);
+  font-weight: var(--md-sys-typescale-label-medium-weight);
+  line-height: var(--md-sys-typescale-label-medium-line-height);
+  letter-spacing: var(--md-sys-typescale-label-medium-tracking);
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.drawer-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px 12px 24px;
+  touch-action: pan-y;
+}
+
+/* ==========================================================================
+   SCRIM (M3 modal drawer scrim)
+   E1: was 8900 — now 700 (just above drawer)
+   ========================================================================== */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  /* I2: Frosted glass scrim — blur + tint instead of solid black */
+  background: rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 600; /* Fixed: was 700, now 600 to be below drawer */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--md-sys-motion-duration-medium2)
+    var(--md-sys-motion-easing-standard);
+}
+.scrim.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ==========================================================================
+   FAB (M3 Large FAB)
+   Spec: 96dp, 28dp corner, primary-container bg, on-primary-container icon
+   C2: was using custom radial-gradient
+   E3: position:absolute was declared twice
+   ========================================================================== */
+
+.fab {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 55;
+
+  /* C2: M3 Large FAB — primary-container bg */
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+
+  width: 96px;
+  height: 96px;
+  border-radius: 28px;
+  border: none;
+  /* Flex column so fab-icon + fab-hint stack vertically */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: var(--md-sys-elevation-3);
+
+  transition:
+    box-shadow var(--md-sys-motion-duration-short4)
+      var(--md-sys-motion-easing-standard),
+    transform var(--md-sys-motion-duration-short4)
+      var(--md-sys-motion-easing-emphasized),
+    background var(--md-sys-motion-duration-short4)
+      var(--md-sys-motion-easing-standard);
+}
+
+.fab::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--md-sys-color-on-primary-container);
+  opacity: 0;
+  transition: opacity var(--md-sys-motion-duration-short4)
+    var(--md-sys-motion-easing-standard);
+}
+
+.fab:hover {
+  box-shadow: var(--md-sys-elevation-4);
+}
+.fab:hover::before {
+  opacity: var(--md-sys-state-hover-opacity);
+}
+.fab:active {
+  box-shadow: var(--md-sys-elevation-3);
+  transform: scale(0.97);
+}
+.fab:active::before {
+  opacity: var(--md-sys-state-pressed-opacity);
+}
+.fab:focus-visible {
+  outline: 3px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.fab-icon {
+  font-size: 32px;
+  color: var(--md-sys-color-on-primary-container);
+  position: relative;
+  z-index: 1;
+  transition: transform var(--md-sys-motion-duration-medium1)
+    var(--md-sys-motion-easing-emphasized);
+  line-height: 1;
+}
+
+/* Label Small — "Press N" hint below FAB icon */
+.fab-hint {
+  font-size: var(--md-sys-typescale-label-small-size);
+  font-weight: var(--md-sys-typescale-label-small-weight);
+  letter-spacing: 0.4px;
+  color: var(--md-sys-color-on-primary-container);
+  opacity: 0.75;
+  position: relative;
+  z-index: 1;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.fab.open .fab-icon {
+  transform: rotate(45deg);
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 600px) {
+  .fab {
+    bottom: 20px;
+    right: 20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+  }
+  .fab-icon {
+    font-size: 28px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .main-content {
+    padding: 24px 24px 120px;
+  }
+}

@@ -1,0 +1,310 @@
+/* ==========================================================================
+   Material Design 3 — Design Tokens (Dark Theme)
+   Reference: https://m3.material.io/styles/color/roles
+   ========================================================================== */
+
+:root {
+
+  /* ── COLOR ROLES ─────────────────────────────────────────────────── */
+
+  /* Primary */
+  --md-sys-color-primary:                 #aec6ff;
+  --md-sys-color-on-primary:              #002e69;
+  --md-sys-color-primary-container:       #004494;
+  --md-sys-color-on-primary-container:    #d8e2ff;
+  --md-sys-color-primary-fixed:           #d8e2ff;
+  --md-sys-color-primary-fixed-dim:       #aec6ff;
+  --md-sys-color-on-primary-fixed:        #001945;
+  --md-sys-color-on-primary-fixed-variant:#003082;
+
+  /* Secondary */
+  --md-sys-color-secondary:               #bec6dc;
+  --md-sys-color-on-secondary:            #283141;
+  --md-sys-color-secondary-container:     #3e4759;
+  --md-sys-color-on-secondary-container:  #dae2f9;
+  --md-sys-color-secondary-fixed:         #dae2f9;
+  --md-sys-color-secondary-fixed-dim:     #bec6dc;
+  --md-sys-color-on-secondary-fixed:      #131c2b;
+  --md-sys-color-on-secondary-fixed-variant:#283141;
+
+  /* Tertiary */
+  --md-sys-color-tertiary:               #efbd94;
+  --md-sys-color-on-tertiary:             #46280a;
+  --md-sys-color-tertiary-container:      #603f20;
+  --md-sys-color-on-tertiary-container:   #ffdcbe;
+
+  /* Error */
+  --md-sys-color-error:                   #ffb4ab;
+  --md-sys-color-on-error:                #690005;
+  --md-sys-color-error-container:         #93000a;
+  --md-sys-color-on-error-container:      #ffdad6;
+
+  /* Surface – complete M3 surface tone ramp */
+  --md-sys-color-surface-dim:             #111318;
+  --md-sys-color-surface:                 #111318;
+  --md-sys-color-surface-bright:          #37393e;
+
+  --md-sys-color-surface-container-lowest:  #0c0e13;
+  --md-sys-color-surface-container-low:     #191c20;
+  --md-sys-color-surface-container:         #1d2024;
+  --md-sys-color-surface-container-high:    #282a2f;
+  --md-sys-color-surface-container-highest: #33353a;
+
+  --md-sys-color-on-surface:              #e2e2e9;
+  --md-sys-color-on-surface-variant:      #c4c6d0;
+
+  /* Background */
+  --md-sys-color-background:              #111318;
+  --md-sys-color-on-background:          #e2e2e9;
+
+  /* Inverse */
+  --md-sys-color-inverse-surface:         #e2e2e9;
+  --md-sys-color-inverse-on-surface:      #2f3036;
+  --md-sys-color-inverse-primary:         #005cbb;
+
+  /* Outline */
+  --md-sys-color-outline:                 #8e9099;
+  --md-sys-color-outline-variant:         #44474f;
+
+  /* Surface Tint (primary color used for elevation overlays in M3) */
+  --md-sys-color-surface-tint:            #aec6ff;
+
+  /* Scrim */
+  --md-sys-color-scrim:                   #000000;
+
+  /* Shadow */
+  --md-sys-color-shadow:                  #000000;
+
+
+  /* ── STATE LAYER OPACITIES ──────────────────────────────────────── */
+  /* Reference: https://m3.material.io/foundations/interaction/states */
+
+  --md-sys-state-hover-opacity:    0.08;
+  --md-sys-state-focus-opacity:    0.12;
+  --md-sys-state-pressed-opacity:  0.12;
+  --md-sys-state-dragged-opacity:  0.16;
+  --md-sys-state-disabled-opacity: 0.38;
+
+
+  /* ── TYPESCALE ───────────────────────────────────────────────────── */
+  /* Reference: https://m3.material.io/styles/typography/type-scale-tokens */
+
+  /* Display */
+  --md-sys-typescale-display-large-font:       'Roboto', sans-serif;
+  --md-sys-typescale-display-large-size:       57px;
+  --md-sys-typescale-display-large-weight:     400;
+  --md-sys-typescale-display-large-line-height:64px;
+  --md-sys-typescale-display-large-tracking:   -0.25px;
+
+  --md-sys-typescale-display-medium-size:      45px;
+  --md-sys-typescale-display-medium-weight:    400;
+  --md-sys-typescale-display-medium-line-height:52px;
+  --md-sys-typescale-display-medium-tracking:  0px;
+
+  --md-sys-typescale-display-small-size:       36px;
+  --md-sys-typescale-display-small-weight:     400;
+  --md-sys-typescale-display-small-line-height:44px;
+  --md-sys-typescale-display-small-tracking:   0px;
+
+  /* Headline */
+  --md-sys-typescale-headline-large-size:      32px;
+  --md-sys-typescale-headline-large-weight:    400;
+  --md-sys-typescale-headline-large-line-height:40px;
+  --md-sys-typescale-headline-large-tracking:  0px;
+
+  --md-sys-typescale-headline-medium-size:     28px;
+  --md-sys-typescale-headline-medium-weight:   400;
+  --md-sys-typescale-headline-medium-line-height:36px;
+  --md-sys-typescale-headline-medium-tracking: 0px;
+
+  --md-sys-typescale-headline-small-size:      24px;
+  --md-sys-typescale-headline-small-weight:    400;
+  --md-sys-typescale-headline-small-line-height:32px;
+  --md-sys-typescale-headline-small-tracking:  0px;
+
+  /* Title */
+  --md-sys-typescale-title-large-size:         22px;
+  --md-sys-typescale-title-large-weight:       400;
+  --md-sys-typescale-title-large-line-height:  28px;
+  --md-sys-typescale-title-large-tracking:     0px;
+
+  --md-sys-typescale-title-medium-size:        16px;
+  --md-sys-typescale-title-medium-weight:      500;
+  --md-sys-typescale-title-medium-line-height: 24px;
+  --md-sys-typescale-title-medium-tracking:    0.15px;
+
+  --md-sys-typescale-title-small-size:         14px;
+  --md-sys-typescale-title-small-weight:       500;
+  --md-sys-typescale-title-small-line-height:  20px;
+  --md-sys-typescale-title-small-tracking:     0.1px;
+
+  /* Body */
+  --md-sys-typescale-body-large-size:          16px;
+  --md-sys-typescale-body-large-weight:        400;
+  --md-sys-typescale-body-large-line-height:   24px;
+  --md-sys-typescale-body-large-tracking:      0.5px;
+
+  --md-sys-typescale-body-medium-size:         14px;
+  --md-sys-typescale-body-medium-weight:       400;
+  --md-sys-typescale-body-medium-line-height:  20px;
+  --md-sys-typescale-body-medium-tracking:     0.25px;
+
+  --md-sys-typescale-body-small-size:          12px;
+  --md-sys-typescale-body-small-weight:        400;
+  --md-sys-typescale-body-small-line-height:   16px;
+  --md-sys-typescale-body-small-tracking:      0.4px;
+
+  /* Label */
+  --md-sys-typescale-label-large-size:         14px;
+  --md-sys-typescale-label-large-weight:       500;
+  --md-sys-typescale-label-large-line-height:  20px;
+  --md-sys-typescale-label-large-tracking:     0.1px;
+
+  --md-sys-typescale-label-medium-size:        12px;
+  --md-sys-typescale-label-medium-weight:      500;
+  --md-sys-typescale-label-medium-line-height: 16px;
+  --md-sys-typescale-label-medium-tracking:    0.5px;
+
+  --md-sys-typescale-label-small-size:         11px;
+  --md-sys-typescale-label-small-weight:       500;
+  --md-sys-typescale-label-small-line-height:  16px;
+  --md-sys-typescale-label-small-tracking:     0.5px;
+
+
+  /* ── SHAPE ───────────────────────────────────────────────────────── */
+  /* Reference: https://m3.material.io/styles/shape/shape-scale-tokens */
+
+  --md-sys-shape-corner-none:        0px;
+  --md-sys-shape-corner-extra-small: 4px;
+  --md-sys-shape-corner-small:       8px;
+  --md-sys-shape-corner-medium:      12px;
+  --md-sys-shape-corner-large:       16px;
+  --md-sys-shape-corner-extra-large: 28px;
+  --md-sys-shape-corner-full:        9999px;
+
+
+  /* ── ELEVATION (tonal overlay % for dark theme) ─────────────────── */
+  /* M3 dark theme: elevation is expressed as surface-tint overlay */
+  /* Level 0 = 0%, 1 = 5%, 2 = 8%, 3 = 11%, 4 = 12%, 5 = 14% */
+
+  --md-sys-elevation-tint-level1: rgba(174, 198, 255, 0.05);
+  --md-sys-elevation-tint-level2: rgba(174, 198, 255, 0.08);
+  --md-sys-elevation-tint-level3: rgba(174, 198, 255, 0.11);
+  --md-sys-elevation-tint-level4: rgba(174, 198, 255, 0.12);
+  --md-sys-elevation-tint-level5: rgba(174, 198, 255, 0.14);
+
+  /* Shadow (kept for non-tonal elevation surfaces) */
+  --md-sys-elevation-1:
+    0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  --md-sys-elevation-2:
+    0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+  --md-sys-elevation-3:
+    0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+  --md-sys-elevation-4:
+    0px 6px 10px 4px rgba(0, 0, 0, 0.2), 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+
+
+  /* ── MOTION ──────────────────────────────────────────────────────── */
+  /* Reference: https://m3.material.io/styles/motion/easing-and-duration */
+
+  /* Easing — Emphasized */
+  --md-sys-motion-easing-emphasized:             cubic-bezier(0.2, 0, 0, 1);
+  --md-sys-motion-easing-emphasized-decelerate:  cubic-bezier(0.05, 0.7, 0.1, 1);
+  --md-sys-motion-easing-emphasized-accelerate:  cubic-bezier(0.3, 0, 0.8, 0.15);
+
+  /* Easing — Standard */
+  --md-sys-motion-easing-standard:               cubic-bezier(0.4, 0, 0.2, 1);
+  --md-sys-motion-easing-standard-decelerate:    cubic-bezier(0, 0, 0, 1);
+  --md-sys-motion-easing-standard-accelerate:    cubic-bezier(0.3, 0, 1, 1);
+
+  /* Duration */
+  --md-sys-motion-duration-short1:  50ms;
+  --md-sys-motion-duration-short2:  100ms;
+  --md-sys-motion-duration-short3:  150ms;
+  --md-sys-motion-duration-short4:  200ms;
+  --md-sys-motion-duration-medium1: 250ms;
+  --md-sys-motion-duration-medium2: 300ms;
+  --md-sys-motion-duration-medium3: 350ms;
+  --md-sys-motion-duration-medium4: 400ms;
+  --md-sys-motion-duration-long1:   450ms;
+  --md-sys-motion-duration-long2:   500ms;
+  --md-sys-motion-duration-long3:   550ms;
+  --md-sys-motion-duration-long4:   600ms;
+  --md-sys-motion-duration-extra-long1: 700ms;
+  --md-sys-motion-duration-extra-long2: 800ms;
+  --md-sys-motion-duration-extra-long3: 900ms;
+  --md-sys-motion-duration-extra-long4: 1000ms;
+
+  /* Convenience aliases */
+  --md-sys-motion-duration-short:  var(--md-sys-motion-duration-short4);
+  --md-sys-motion-duration-medium: var(--md-sys-motion-duration-medium2);
+  --md-sys-motion-duration-long:   var(--md-sys-motion-duration-long2);
+}
+
+/* ── LIGHT THEME OVERRIDES ───────────────────────────────────────── */
+:root[data-theme="light"] {
+  --md-sys-color-primary: #415f91;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #d6e3ff;
+  --md-sys-color-on-primary-container: #001b3e;
+  --md-sys-color-primary-fixed:          #d6e3ff;
+  --md-sys-color-primary-fixed-dim:      #adc6ff;
+  --md-sys-color-on-primary-fixed:       #001a40;
+  --md-sys-color-on-primary-fixed-variant:#274474;
+
+  --md-sys-color-secondary: #565f71;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #dae2f9;
+  --md-sys-color-on-secondary-container: #131c2b;
+  --md-sys-color-secondary-fixed:        #dae2f9;
+  --md-sys-color-secondary-fixed-dim:    #bec6dc;
+  --md-sys-color-on-secondary-fixed:     #131c2b;
+  --md-sys-color-on-secondary-fixed-variant:#3e4759;
+
+  /* Tertiary — C8: was missing from light theme */
+  --md-sys-color-tertiary:               #715573;
+  --md-sys-color-on-tertiary:            #ffffff;
+  --md-sys-color-tertiary-container:     #fbd7fc;
+  --md-sys-color-on-tertiary-container:  #29132d;
+
+  --md-sys-color-error: #ba1a1a;
+  --md-sys-color-on-error: #ffffff;
+  --md-sys-color-error-container: #ffdad6;
+  --md-sys-color-on-error-container: #410002;
+
+  /* M3 Light theme surface ramp */
+  --md-sys-color-surface:                    #fdfbff;
+  --md-sys-color-surface-dim:                #daddf0;
+  --md-sys-color-surface-bright:             #fdfbff; /* C8: was missing */
+  --md-sys-color-surface-container-lowest:   #ffffff;
+  --md-sys-color-surface-container-low:      #f4f3fa;
+  --md-sys-color-surface-container:          #edeef4;
+  --md-sys-color-surface-container-high:     #e7e8ee;
+  --md-sys-color-surface-container-highest:  #e2e2e9;
+
+  --md-sys-color-on-surface:         #191c20;
+  --md-sys-color-on-surface-variant: #44474f;
+
+  --md-sys-color-background:         #fdfbff;
+  --md-sys-color-on-background:      #191c20;
+
+  --md-sys-color-outline:         #74777f;
+  --md-sys-color-outline-variant: #c4c6d0;
+
+  /* Inverse — C8: was missing */
+  --md-sys-color-inverse-surface:    #2f3036;
+  --md-sys-color-inverse-on-surface: #f1f0f7;
+  --md-sys-color-inverse-primary:    #adc6ff;
+
+  /* Surface tint, scrim, shadow — C8: were missing */
+  --md-sys-color-surface-tint:       #415f91;
+  --md-sys-color-scrim:              #000000;
+  --md-sys-color-shadow:             #000000;
+
+  /* Elevation tints (primary colour for light theme at correct opacity) */
+  --md-sys-elevation-tint-level1: rgba(65, 95, 145, 0.05);
+  --md-sys-elevation-tint-level2: rgba(65, 95, 145, 0.08);
+  --md-sys-elevation-tint-level3: rgba(65, 95, 145, 0.11);
+  --md-sys-elevation-tint-level4: rgba(65, 95, 145, 0.12);
+  --md-sys-elevation-tint-level5: rgba(65, 95, 145, 0.14);
+}
